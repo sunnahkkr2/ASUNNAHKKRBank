@@ -1,172 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transfer Receipt</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+<title>Transaction Receipt</title>
 
-body{
-background:#f5f7fb;
-}
-
-.header{
-background:#00A651;
-color:#fff;
-text-align:center;
-padding:30px 20px;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.check{
-font-size:70px;
-margin-bottom:10px;
-}
-
-.container{
-width:90%;
-max-width:420px;
-margin:20px auto;
-background:#fff;
-border-radius:20px;
-padding:20px;
-box-shadow:0 5px 20px rgba(0,0,0,.1);
-}
-
-.amount{
-font-size:34px;
-font-weight:bold;
-color:#00A651;
-text-align:center;
-margin-bottom:20px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-padding:12px 0;
-border-bottom:1px solid #eee;
-}
-
-.label{
-color:#777;
-}
-
-.value{
-font-weight:bold;
-}
-
-button{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.home{
-background:#0066cc;
-color:white;
-}
-
-.share{
-background:#00A651;
-color:white;
-}
-</style>
+<link rel="stylesheet" href="../css/style.css">
 
 </head>
 
 <body>
 
 <div class="header">
-<div class="check">✅</div>
-<h2>Transfer Successful</h2>
-<p>Your transaction has been completed.</p>
+
+<div class="success">
+
+<div class="success-icon">
+✅
 </div>
 
-<div class="container">
+<h1>Transfer Successful</h1>
 
-<div class="amount" id="amount">
+<p>Your transaction was completed successfully.</p>
+
+</div>
+
+</div>
+
+<div class="container fade-in">
+
+<div class="card">
+
+<div class="balance"
+id="amount">
+
 ₦0.00
+
 </div>
 
-<div class="row">
-<span class="label">Recipient</span>
-<span class="value" id="receiverName">-</span>
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Recipient
 </div>
 
-<div class="row">
-<span class="label">Account Number</span>
-<span class="value" id="receiverAccount">-</span>
+<div
+class="transaction-date"
+id="receiverName">
+
+-
+
 </div>
 
-<div class="row">
-<span class="label">Description</span>
-<span class="value" id="description">-</span>
 </div>
 
-<div class="row">
-<span class="label">Date</span>
-<span class="value" id="date">-</span>
 </div>
 
-<div class="row">
-<span class="label">Transaction ID</span>
-<span class="value" id="transactionId">-</span>
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Account Number
 </div>
 
-<button class="home" onclick="location.href='dashboard.html'">
+<div
+class="transaction-date"
+id="receiverAccount">
+
+-
+
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Description
+</div>
+
+<div
+class="transaction-date"
+id="description">
+
+-
+
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Transaction ID
+</div>
+
+<div
+class="transaction-date"
+id="transactionId">
+
+-
+
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Date & Time
+</div>
+
+<div
+class="transaction-date"
+id="date">
+
+-
+
+</div>
+
+</div>
+
+</div>
+<button class="green" onclick="location.href='dashboard.html'">
 Back to Dashboard
 </button>
 
-<button class="share" onclick="window.print()">
+<button onclick="window.print()">
 Share / Print Receipt
 </button>
 
 </div>
 
+</div>
+
 <script>
+
 const transaction =
 JSON.parse(localStorage.getItem("lastTransaction"));
 
-const pending =
-JSON.parse(localStorage.getItem("pendingTransfer"));
+if(!transaction){
 
-if(transaction){
+location.href="dashboard.html";
+
+}
 
 document.getElementById("amount").innerText =
-"₦"+Number(transaction.amount).toLocaleString();
+"₦" + Number(transaction.amount).toLocaleString();
 
 document.getElementById("receiverName").innerText =
-pending?.receiverName || "-";
+transaction.receiverName ||
+transaction.receiver ||
+"-";
 
 document.getElementById("receiverAccount").innerText =
-transaction.receiverAccount || pending?.receiverAccount || "-";
+transaction.receiverAccount ||
+"-";
 
 document.getElementById("description").innerText =
-transaction.description || pending?.description || "-";
-
-document.getElementById("date").innerText =
-new Date().toLocaleString();
+transaction.description ||
+"No description";
 
 document.getElementById("transactionId").innerText =
 transaction._id ||
 transaction.id ||
-"TXN-"+Date.now();
+"TXN" + Date.now();
 
-}
+document.getElementById("date").innerText =
+new Date(transaction.createdAt || Date.now()).toLocaleString();
+
 </script>
 
 </body>
