@@ -1,140 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transfer - ASUNNAHKKR BANK</title>
+
+<title>Transfer Money</title>
+
 <link rel="stylesheet" href="../css/style.css">
-
-<style>
-body{
-    font-family:Arial,sans-serif;
-    background:#f5f7fb;
-    margin:0;
-}
-
-.container{
-    max-width:420px;
-    margin:20px auto;
-    background:#fff;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-body{
-    font-family:Arial,sans-serif;
-    background:#f2f5fa;
-    margin:0;
-}
-
-.header{
-    background:#0066cc;
-    color:white;
-    padding:20px;
-    border-bottom-left-radius:25px;
-    border-bottom-right-radius:25px;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    margin-top:15px;
-    margin-bottom:5px;
-    color:#444;
-}
-
-input{
-    width:100%;
-    padding:15px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-size:16px;
-    box-sizing:border-box;
-}
-
-button{
-    width:100%;
-    margin-top:20px;
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:#00A651;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-}
-
-#receiverName{
-    color:#00A651;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-h2{
-    color:#0066cc;
-    text-align:center;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
-    box-sizing:border-box;
-}
-
-#receiverName{
-    color:green;
-    font-weight:bold;
-    margin:10px 0;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#0066cc;
-    color:white;
-    border-radius:8px;
-    font-size:16px;
-}
-</style>
 
 </head>
 
 <body>
 
 <div class="header">
-<h2>Transfer Money</h2>
+
+<h1>Transfer Money</h1>
+
+<p>Send money securely</p>
+
 </div>
 
-<div class="container">
+<div class="container fade-in">
 
-<label>Account Number</label>
+<div class="card">
+
+<label>Recipient Account Number</label>
 
 <input
 id="receiverAccount"
-placeholder="Enter Account Number"
-onblur="lookupAccount()">
+type="text"
+placeholder="Enter account number"
+onkeyup="lookupAccount()">
 
-<div id="receiverName"></div>
+<div
+id="receiverName"
+style="
+margin-top:10px;
+font-weight:bold;
+color:#00A651;
+">
+</div>
 
-<label>Amount (₦)</label>
+<label>Amount</label>
 
 <input
 id="amount"
 type="number"
-placeholder="Enter Amount">
+placeholder="0.00">
 
-<label>Narration</label>
+<label>Description</label>
 
 <input
 id="description"
-placeholder="Payment Description">
+placeholder="Payment description">
 
 <label>Transfer PIN</label>
 
@@ -142,11 +61,17 @@ placeholder="Payment Description">
 id="pin"
 type="password"
 maxlength="4"
-placeholder="Enter 4-digit PIN">
+placeholder="****">
 
-<button onclick="transferMoney()">
+<button
+class="green"
+onclick="transferMoney()">
+
 Continue
+
 </button>
+
+</div>
 
 </div>
 

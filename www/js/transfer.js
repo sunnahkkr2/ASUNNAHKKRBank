@@ -2,49 +2,61 @@ const API_URL = "http://localhost:5000/api";
 
 const currentUser = JSON.parse(localStorage.getItem("user"));
 
+if (!currentUser) {
+    location.href = "login.html";
+}
+
 async function lookupAccount() {
-    const accountNumber = document.getElementById("receiverAccount").value.trim();
 
-    if (!accountNumber) return;
-localStorage.setItem(
-    "pendingTransfer",
-    JSON.stringify({
-        receiverName: document.getElementById("receiverName").innerText,
-        receiverAccount,
-        amount,
-        description,
-        pin
-    })
-);
+    const accountNumber =
+        document.getElementById("receiverAccount").value.trim();
 
-window.location.href = "confirm-transfer.html";
-return;
+    if (accountNumber.length < 10) {
+        document.getElementById("receiverName").innerText = "";
+        return;
+    }
 
     try {
+
         const response = await fetch(`${API_URL}/user/lookup`, {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ accountNumber })
+
+            body: JSON.stringify({
+                accountNumber
+            })
+
         });
 
         const data = await response.json();
 
         if (!response.ok) {
+
+            document.getElementById("receiverName").style.color = "red";
             document.getElementById("receiverName").innerText = data.message;
+
             return;
+
         }
 
-        document.getElementById("receiverName").innerText =
-            data.fullName;
+        document.getElementById("receiverName").style.color = "#00A651";
+        document.getElementById("receiverName").innerText = data.fullName;
 
-    } catch (err) {
-        alert("Server connection failed.");
+    } catch (e) {
+
+        document.getElementById("receiverName").style.color = "red";
+        document.getElementById("receiverName").innerText =
+            "Server connection failed";
+
     }
+
 }
 
-async function transferMoney() {
+function transferMoney() {
 
     const receiverAccount =
         document.getElementById("receiverAccount").value.trim();
@@ -57,67 +69,31 @@ async function transferMoney() {
 
     const pin =
         document.getElementById("pin").value;
-if (!confirm(
-`Confirm Transfer
 
-Recipient: ${document.getElementById("receiverName").innerText}
-Amount: ₦${Number(amount).toLocaleString()}
-Description: ${description || "No description"}
+    const receiverName =
+        document.getElementById("receiverName").innerText;
 
-Do you want to continue?`
-)) {
-    return;
-}
+    if (!receiverAccount || !amount || !pin) {
 
-    try {
+        alert("Please fill all required fields.");
 
-        const response = await fetch(`${API_URL}/transaction/transfer`, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                senderAccount: currentUser.accountNumber,
-
-                receiverAccount,
-
-                amount,
-
-                description,
-
-                pin
-
-            })
-
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-
-            alert(data.message);
-
-            return;
-
-        }
-
-        alert("Transfer Successful!");
-
-        localStorage.setItem(
-            "lastTransaction",
-            JSON.stringify(data.transaction)
-        );
-
-        window.location.href = "receipt.html";
-
-    } catch (err) {
-
-        alert("Unable to connect to server.");
+        return;
 
     }
+
+    localStorage.setItem(
+        "pendingTransfer",
+        JSON.stringify({
+
+            receiverAccount,
+            receiverName,
+            amount,
+            description,
+            pin
+
+        })
+    );
+
+    location.href = "confirm-transfer.html";
 
 }
