@@ -1,83 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Settings</title>
 
-<style>
-body{
-font-family:Arial,sans-serif;
-background:#f5f7fb;
-margin:0;
-}
+<link rel="stylesheet" href="../css/style.css">
 
-.container{
-max-width:420px;
-margin:30px auto;
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-
-h2{
-text-align:center;
-color:#0066cc;
-margin-bottom:25px;
-}
-
-button{
-width:100%;
-padding:15px;
-margin:10px 0;
-border:none;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-}
-
-.primary{
-background:#0066cc;
-color:white;
-}
-
-.danger{
-background:#d32f2f;
-color:white;
-}
-</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="header">
 
-<h2>Settings</h2>
+<h1>Settings</h1>
 
-<button class="primary" onclick="alert('Coming Soon')">
-Change Password
-</button>
+<p>Manage your preferences</p>
 
-<button class="primary" onclick="alert('Coming Soon')">
-Change Transfer PIN
-</button>
+</div>
 
-<button class="danger" onclick="logout()">
+<div class="container fade-in">
+
+<div class="setting-item">
+
+<span>🌙 Dark Mode</span>
+
+<input
+type="checkbox"
+id="darkMode">
+
+</div>
+
+<div class="setting-item">
+
+<span>🔔 Notifications</span>
+
+<input
+type="checkbox"
+id="notifications"
+checked>
+
+</div>
+
+<div class="setting-item"
+onclick="location.href='change-pin.html'">
+
+<span>🔐 Change PIN</span>
+
+<span>›</span>
+
+</div>
+
+<div class="setting-item"
+onclick="location.href='change-password.html'">
+
+<span>🔑 Change Password</span>
+
+<span>›</span>
+
+</div>
+
+<div class="setting-item">
+
+<span>🌐 Language</span>
+
+<span>English ›</span>
+
+</div>
+
+<div class="setting-item">
+
+<span>❓ Help & Support</span>
+
+<span>›</span>
+
+</div>
+
+<div class="setting-item">
+
+<span>ℹ️ About ASUNNAHKKR BANK</span>
+
+<span>v2.0</span>
+
+</div>
+
+<button class="red" onclick="logout()">
 Logout
 </button>
+</div>
+
+<div class="bottom-nav">
+
+<a href="dashboard.html">
+🏠
+<span>Home</span>
+</a>
+
+<a href="transfer.html">
+💸
+<span>Transfer</span>
+</a>
+
+<a href="history.html">
+📜
+<span>History</span>
+</a>
+
+<a href="profile.html">
+👤
+<span>Profile</span>
+</a>
 
 </div>
 
 <script>
-function logout(){
 
-localStorage.removeItem("token");
-localStorage.removeItem("user");
+const currentUser = JSON.parse(localStorage.getItem("user"));
 
-window.location.href="login.html";
+if(!currentUser){
+location.href = "login.html";
+}
+
+const darkMode = document.getElementById("darkMode");
+
+if(localStorage.getItem("darkMode") === "true"){
+
+darkMode.checked = true;
+
+document.body.style.background = "#121212";
+document.body.style.color = "#ffffff";
 
 }
+
+darkMode.addEventListener("change",function(){
+
+if(this.checked){
+
+localStorage.setItem("darkMode","true");
+
+document.body.style.background="#121212";
+document.body.style.color="#ffffff";
+
+}else{
+
+localStorage.setItem("darkMode","false");
+
+document.body.style.background="#f5f7fb";
+document.body.style.color="#222222";
+
+}
+
+});
+
+function logout(){
+
+localStorage.removeItem("user");
+
+location.href="login.html";
+
+}
+
 </script>
 
 </body>
