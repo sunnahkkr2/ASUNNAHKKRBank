@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+margin:0;
+}
+
+.container{
+max-width:420px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+h2{
+text-align:center;
+color:#0066cc;
+margin-bottom:25px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+}
+
+.primary{
+background:#0066cc;
+color:white;
+}
+
+.danger{
+background:#d32f2f;
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Settings</h2>
+
+<button class="primary" onclick="alert('Coming Soon')">
+Change Password
+</button>
+
+<button class="primary" onclick="alert('Coming Soon')">
+Change Transfer PIN
+</button>
+
+<button class="danger" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<script>
+function logout(){
+
+localStorage.removeItem("token");
+localStorage.removeItem("user");
+
+window.location.href="login.html";
+
+}
+</script>
+
+</body>
+</html>

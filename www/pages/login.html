@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - ASUNNAHKKR BANK</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{
+background:#f5f7fb;
+font-family:Arial,sans-serif;
+}
+.container{
+max-width:400px;
+margin:60px auto;
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+h2{
+text-align:center;
+color:#0066cc;
+}
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
+}
+button{
+width:100%;
+padding:12px;
+background:#0066cc;
+color:#fff;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+button:hover{
+background:#0052a3;
+}
+p{
+text-align:center;
+margin-top:15px;
+}
+a{
+color:#0066cc;
+text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>ASUNNAHKKR BANK</h2>
+
+<input type="email" id="email" placeholder="Email Address">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p>
+Don't have an account?
+<a href="register.html">Create Account</a>
+</p>
+
+</div>
+
+<script src="../js/auth.js"></script>
+
+</body>
+</html>

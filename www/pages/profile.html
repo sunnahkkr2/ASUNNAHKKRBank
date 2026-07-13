@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+margin:0;
+}
+.container{
+max-width:420px;
+margin:30px auto;
+background:#fff;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+h2{
+text-align:center;
+color:#0066cc;
+}
+.item{
+margin:15px 0;
+padding:10px;
+border-bottom:1px solid #eee;
+}
+.label{
+font-weight:bold;
+color:#555;
+}
+.value{
+margin-top:5px;
+font-size:18px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>My Profile</h2>
+
+<div class="item">
+<div class="label">Full Name</div>
+<div id="fullName" class="value"></div>
+</div>
+
+<div class="item">
+<div class="label">Email</div>
+<div id="email" class="value"></div>
+</div>
+
+<div class="item">
+<div class="label">Phone Number</div>
+<div id="phone" class="value"></div>
+</div>
+
+<div class="item">
+<div class="label">Account Number</div>
+<div id="accountNumber" class="value"></div>
+</div>
+
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+    window.location.href="login.html";
+}
+
+document.getElementById("fullName").innerText = user.fullName;
+document.getElementById("email").innerText = user.email;
+document.getElementById("phone").innerText = user.phone;
+document.getElementById("accountNumber").innerText = user.accountNumber;
+</script>
+
+</body>
+</html>

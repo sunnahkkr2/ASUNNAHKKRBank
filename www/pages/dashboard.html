@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - ASUNNAHKKR BANK</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7fb;
+}
+.header{
+    background:#0066cc;
+    color:#fff;
+    padding:20px;
+    border-bottom-left-radius:20px;
+    border-bottom-right-radius:20px;
+}
+.card{
+    background:#fff;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+.balance{
+    font-size:30px;
+    font-weight:bold;
+    color:#0066cc;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin:20px;
+}
+.btn{
+    background:#0066cc;
+    color:white;
+    padding:18px;
+    text-align:center;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h2>Welcome</h2>
+<h3 id="name"></h3>
+</div>
+
+<div class="card">
+<p>Account Number</p>
+<h2 id="account"></h2>
+
+<p>Available Balance</p>
+<div class="balance" id="balance">₦0.00</div>
+</div>
+
+<div class="grid">
+<a class="btn" href="transfer.html">Transfer</a>
+<a class="btn" href="history.html">History</a>
+<a class="btn" href="profile.html">Profile</a>
+<a class="btn" href="settings.html">Settings</a>
+</div>
+
+<script>
+const API_URL = "http://localhost:5000/api";
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user) {
+    window.location.href = "login.html";
+}
+
+document.getElementById("name").innerText = user.fullName;
+document.getElementById("account").innerText = user.accountNumber;
+
+async function loadBalance() {
+    try {
+        const response = await fetch(
+            `${API_URL}/user/balance/${user.accountNumber}`
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+            document.getElementById("balance").innerText =
+                "₦" + Number(data.balance).toLocaleString();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+loadBalance();
+</script>
+
+</body>
+</html>

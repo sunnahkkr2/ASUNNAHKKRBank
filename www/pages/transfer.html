@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transfer - ASUNNAHKKR BANK</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f7fb;
+    margin:0;
+}
+
+.container{
+    max-width:420px;
+    margin:30px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+h2{
+    color:#0066cc;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+#receiverName{
+    color:green;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#0066cc;
+    color:white;
+    border-radius:8px;
+    font-size:16px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Money Transfer</h2>
+
+<input
+id="receiverAccount"
+placeholder="Receiver Account Number"
+onblur="lookupAccount()">
+
+<div id="receiverName"></div>
+
+<input
+id="amount"
+type="number"
+placeholder="Amount">
+
+<input
+id="description"
+placeholder="Description">
+
+<input
+id="pin"
+type="password"
+maxlength="4"
+placeholder="Transfer PIN">
+
+<button onclick="transferMoney()">
+Transfer
+</button>
+
+</div>
+
+<script src="../js/transfer.js"></script>
+
+</body>
+</html>

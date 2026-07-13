@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transfer Receipt</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+.container{
+    max-width:420px;
+    margin:30px auto;
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+.logo{
+    text-align:center;
+    color:#0066cc;
+    font-size:28px;
+    font-weight:bold;
+}
+.success{
+    text-align:center;
+    color:green;
+    font-size:22px;
+    margin:20px 0;
+}
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#0066cc;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+🏦 ASUNNAHKKR BANK
+</div>
+
+<div class="success">
+✅ Transfer Successful
+</div>
+
+<div class="row">
+<span>Amount</span>
+<b id="amount"></b>
+</div>
+
+<div class="row">
+<span>Description</span>
+<b id="description"></b>
+</div>
+
+<div class="row">
+<span>Status</span>
+<b>Successful</b>
+</div>
+
+<div class="row">
+<span>Transaction ID</span>
+<b id="transactionId"></b>
+</div>
+
+<div class="row">
+<span>Date</span>
+<b id="date"></b>
+</div>
+
+<button onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+const tx = JSON.parse(localStorage.getItem("lastTransaction"));
+
+if(!tx){
+    window.location.href="dashboard.html";
+}
+
+document.getElementById("amount").innerText =
+"₦" + tx.amount;
+
+document.getElementById("description").innerText =
+tx.description;
+
+document.getElementById("transactionId").innerText =
+tx._id;
+
+document.getElementById("date").innerText =
+new Date(tx.createdAt).toLocaleString();
+</script>
+
+</body>
+</html>
