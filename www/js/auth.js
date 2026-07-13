@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://kkr-bank-backend-production.up.railway.app/api";
 
 async function login() {
     const email = document.getElementById("email").value.trim();
