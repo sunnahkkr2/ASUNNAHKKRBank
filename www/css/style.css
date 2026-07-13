@@ -1,45 +1,36 @@
 body{
-margin:0;
-padding:0;
-font-family:Arial,sans-serif;
-background:#0066cc;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-color:white;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+    background:#0066cc;
+    color:white;
 }
 
 .splash{
-text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
 }
 
 .logo{
-font-size:80px;
-margin-bottom:20px;
-}
-
-h1{
-font-size:32px;
-margin:10px 0;
-}
-
-p{
-opacity:.9;
-margin-bottom:40px;
+    font-size:80px;
+    margin-bottom:20px;
 }
 
 .loader{
-width:50px;
-height:50px;
-border:5px solid rgba(255,255,255,.3);
-border-top:5px solid white;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto;
+    width:50px;
+    height:50px;
+    border:5px solid rgba(255,255,255,.3);
+    border-top:5px solid #fff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:auto;
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
