@@ -6,130 +6,142 @@
 
 <title>Confirm Transfer</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f5f7fb;
-}
-
-.header{
-background:#0066cc;
-color:white;
-padding:20px;
-text-align:center;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.card{
-width:90%;
-max-width:420px;
-margin:25px auto;
-background:white;
-border-radius:20px;
-padding:20px;
-box-shadow:0 5px 20px rgba(0,0,0,.1);
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-padding:12px 0;
-border-bottom:1px solid #eee;
-}
-
-.amount{
-font-size:34px;
-font-weight:bold;
-color:#00A651;
-text-align:center;
-margin:20px 0;
-}
-
-button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
-background:#00A651;
-color:white;
-font-size:18px;
-font-weight:bold;
-margin-top:20px;
-}
-
-.cancel{
-background:#ddd;
-color:#333;
-margin-top:10px;
-}
-</style>
+<link rel="stylesheet" href="../css/style.css">
 
 </head>
 
 <body>
 
 <div class="header">
-<h2>Confirm Transfer</h2>
+
+<h1>Confirm Transfer</h1>
+
+<p>Please review before sending</p>
+
 </div>
+
+<div class="container fade-in">
 
 <div class="card">
 
-<div class="amount" id="amount">
+<div class="title">
+Transfer Details
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Recipient
+</div>
+
+<div
+class="transaction-date"
+id="receiverName">
+-
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Account Number
+</div>
+
+<div
+class="transaction-date"
+id="receiverAccount">
+-
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Amount
+</div>
+
+<div
+class="transaction-date"
+id="amount">
 ₦0.00
 </div>
 
-<div class="row">
-<span>Recipient</span>
-<b id="receiverName"></b>
 </div>
 
-<div class="row">
-<span>Account</span>
-<b id="receiverAccount"></b>
 </div>
 
-<div class="row">
-<span>Description</span>
-<b id="description"></b>
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Narration
 </div>
 
-<button onclick="confirmTransfer()">
+<div
+class="transaction-date"
+id="description">
+-
+</div>
+
+</div>
+
+</div>
+<button class="green" onclick="confirmTransfer()">
 Confirm Transfer
 </button>
 
-<button class="cancel" onclick="history.back()">
+<button class="red" onclick="location.href='transfer.html'">
 Cancel
 </button>
 
 </div>
 
-<script>
-const transfer = JSON.parse(localStorage.getItem("pendingTransfer"));
+</div>
 
-if(!transfer){
+<script>
+
+const API_URL="http://localhost:5000/api";
+
+const currentUser=JSON.parse(localStorage.getItem("user"));
+
+const transfer=JSON.parse(localStorage.getItem("pendingTransfer"));
+
+if(!currentUser||!transfer){
+
 location.href="transfer.html";
+
 }
 
-document.getElementById("amount").innerText="₦"+Number(transfer.amount).toLocaleString();
-document.getElementById("receiverName").innerText=transfer.receiverName;
-document.getElementById("receiverAccount").innerText=transfer.receiverAccount;
-document.getElementById("description").innerText=transfer.description || "-";
+document.getElementById("receiverName").innerText=
+transfer.receiverName;
 
-const API_URL = "http://localhost:5000/api";
-const currentUser = JSON.parse(localStorage.getItem("user"));
+document.getElementById("receiverAccount").innerText=
+transfer.receiverAccount;
+
+document.getElementById("amount").innerText=
+"₦"+Number(transfer.amount).toLocaleString();
+
+document.getElementById("description").innerText=
+transfer.description||"-";
 
 async function confirmTransfer(){
 
 try{
 
-const response = await fetch(`${API_URL}/transaction/transfer`,{
+const response=await fetch(`${API_URL}/transaction/transfer`,{
 
 method:"POST",
 
@@ -153,7 +165,7 @@ pin:transfer.pin
 
 });
 
-const data = await response.json();
+const data=await response.json();
 
 if(!response.ok){
 
@@ -169,15 +181,16 @@ JSON.stringify(data.transaction)
 
 localStorage.removeItem("pendingTransfer");
 
-window.location.href="receipt.html";
+location.href="receipt.html";
 
-}catch(err){
+}catch(e){
 
 alert("Unable to connect to server.");
 
 }
 
 }
+
 </script>
 
 </body>
