@@ -26,5 +26,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ASUNNAHKKRBank-APK
+          name: SunnahkkrVPN-APK
           path: platforms/android/app/build/outputs/apk/debug/app-debug.apk

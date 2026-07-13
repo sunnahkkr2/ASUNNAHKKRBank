@@ -1,30 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASUNNAHKKR BANK</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunnahkkr VPN</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Font & Material Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
-<body>
+<body class="dark-mode">
 
-<div class="splash">
+  <!-- Splash Screen -->
+  <div class="splash" id="splashScreen">
+    <div class="splash-glow"></div>
+    <div class="logo-wrapper">
+      <div class="logo-shield">
+        <span class="material-icons-round">vpn_lock</span>
+      </div>
+      <div class="logo-pulse"></div>
+    </div>
+    <h1 class="splash-title">Sunnahkkr <span>VPN</span></h1>
+    <p class="splash-subtitle">Secure • Ultra Fast • Private</p>
+    <div class="loader-bar">
+      <div class="loader-progress"></div>
+    </div>
+  </div>
 
-    <div class="logo">🏦</div>
+  <!-- App Wrapper (hidden during splash) -->
+  <div class="app-container hidden" id="appContainer">
 
-    <h1>ASUNNAHKKR BANK</h1>
+    <!-- Screen Container -->
+    <div class="screen-container">
 
-    <p>Secure • Fast • Reliable</p>
+      <!-- ==================== SCREEN: HOME ==================== -->
+      <div class="screen active" id="screen-home">
+        <!-- Top Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <span class="material-icons-round brand-icon">security</span>
+            <span class="app-brand">Sunnahkkr <span>VPN</span></span>
+          </div>
+          <div class="toolbar-right">
+            <button class="icon-btn" id="themeToggleBtn">
+              <span class="material-icons-round" id="themeToggleIcon">light_mode</span>
+            </button>
+            <button class="icon-btn" id="logoutBtn" style="display:none;">
+              <span class="material-icons-round">logout</span>
+            </button>
+          </div>
+        </div>
 
-    <div class="loader"></div>
+        <div class="home-scroll-area">
+          <!-- Connection Status Card -->
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span id="connectionStateText">DISCONNECTED</span>
+          </div>
 
-</div>
+          <!-- Connecting Big Shield Button -->
+          <div class="shield-container">
+            <div class="shield-outer-ring" id="shieldOuterRing"></div>
+            <div class="shield-pulse-ring" id="shieldPulseRing"></div>
+            <button class="shield-button" id="vpnConnectBtn">
+              <span class="material-icons-round shield-icon" id="vpnShieldIcon">power_settings_new</span>
+            </button>
+          </div>
 
-<script>
-setTimeout(() => {
-    window.location.href = "pages/login.html";
-}, 3000);
-</script>
+          <!-- Connection Stats -->
+          <div class="timer-display" id="connectionTimer">00:00:00</div>
 
+          <!-- Selected Server Bar -->
+          <div class="selected-server-pill" id="selectedServerPill">
+            <span class="server-flag" id="homeServerFlag">🇺🇸</span>
+            <div class="server-details">
+              <span class="server-name" id="homeServerName">Smart Selection</span>
+              <span class="server-ping" id="homeServerPing">Ping: 34ms</span>
+            </div>
+            <span class="material-icons-round">chevron_right</span>
+          </div>
+
+          <!-- Live Speed Gauges -->
+          <div class="speed-gauges">
+            <div class="speed-card">
+              <div class="speed-header">
+                <span class="material-icons-round download-color">arrow_downward</span>
+                <span>DOWNLOAD</span>
+              </div>
+              <div class="speed-val" id="downloadSpeed">0.0 <span>Mbps</span></div>
+            </div>
+            <div class="speed-card">
+              <div class="speed-header">
+                <span class="material-icons-round upload-color">arrow_upward</span>
+                <span>UPLOAD</span>
+              </div>
+              <div class="speed-val" id="uploadSpeed">0.0 <span>Mbps</span></div>
+            </div>
+          </div>
+
+          <!-- IP & Security Badge -->
+          <div class="ip-info-card">
+            <div class="ip-row">
+              <span class="ip-label">Virtual IP:</span>
+              <span class="ip-val" id="virtualIPAddress">10.8.0.42</span>
+            </div>
+            <div class="ip-divider"></div>
+            <div class="ip-row">
+              <span class="ip-label">Encryption:</span>
+              <span class="ip-val green-text" id="activeEncryption">ChaCha20 (WG)</span>
+            </div>
+            <div class="ip-divider"></div>
+            <div class="ip-row">
+              <span class="ip-label">DNS / IPv6 Protection:</span>
+              <span class="ip-val green-text">SECURED</span>
+            </div>
+          </div>
+
+          <!-- Real-time Traffic Graph (CSS animated svg representation) -->
+          <div class="graph-card">
+            <div class="graph-title">Real-time Traffic Activity</div>
+            <div class="graph-svg-container">
+              <svg viewBox="0 0 300 80" class="graph-svg">
+                <defs>
+                  <linearGradient id="graphGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0,60 Q 20,40 40,55 T 80,30 T 120,50 T 160,20 T 200,45 T 240,15 T 300,35" fill="none" stroke="var(--primary)" stroke-width="2.5" class="graph-path"></path>
+                <path d="M 0,60 Q 20,40 40,55 T 80,30 T 120,50 T 160,20 T 200,45 T 240,15 T 300,35 L 300,80 L 0,80 Z" fill="url(#graphGrad)"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Connection Live Handshake Log console -->
+          <div class="log-card">
+            <div class="log-header">
+              <span class="material-icons-round">receipt_long</span>
+              <span>Secure Connection Logs</span>
+            </div>
+            <div class="log-console" id="vpnLogsConsole">
+              <div class="log-line text-muted">[system] Sunnahkkr VPN Engine ready.</div>
+              <div class="log-line text-muted">[system] Protocols fully loaded.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SCREEN: SERVERS ==================== -->
+      <div class="screen" id="screen-servers">
+        <div class="screen-header">
+          <h2>VPN Servers</h2>
+          <p>Supercharged & low-latency worldwide network</p>
+        </div>
+
+        <div class="search-bar-wrapper">
+          <span class="material-icons-round search-icon">search</span>
+          <input type="text" id="serverSearchInput" placeholder="Search country or city...">
+          <button class="filter-fav-btn" id="filterFavsBtn">
+            <span class="material-icons-round" id="favFilterIcon">star_border</span>
+          </button>
+        </div>
+
+        <!-- Fast smart-connect selection -->
+        <div class="smart-connect-banner" id="smartConnectBanner">
+          <div class="smart-icon-box">
+            <span class="material-icons-round">bolt</span>
+          </div>
+          <div class="smart-info">
+            <h4>Fastest Server</h4>
+            <p>Smart algorithm selection</p>
+          </div>
+          <span class="material-icons-round arrow">chevron_right</span>
+        </div>
+
+        <div class="servers-list-container">
+          <div class="list-subheader">ALL SERVERS</div>
+          <div class="servers-list" id="serversListContainer">
+            <!-- Dynamic Server Cards injected here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SCREEN: SETTINGS ==================== -->
+      <div class="screen" id="screen-settings">
+        <div class="screen-header">
+          <h2>VPN Settings</h2>
+          <p>Fine-tune security and connection protocols</p>
+        </div>
+
+        <div class="settings-scroll-area">
+          <div class="settings-group">
+            <div class="group-title">Protocol Selection</div>
+
+            <div class="protocol-card active" id="protocol-wg" onclick="selectProtocol('WireGuard')">
+              <div class="protocol-radio">
+                <span class="material-icons-round check">radio_button_checked</span>
+              </div>
+              <div class="protocol-info">
+                <div class="protocol-name">WireGuard <span>(Recommended)</span></div>
+                <div class="protocol-desc">Extremely light, ultra-fast, utilizing ultra-secure ChaCha20 encryption.</div>
+              </div>
+            </div>
+
+            <div class="protocol-card" id="protocol-ovpn" onclick="selectProtocol('OpenVPN')">
+              <div class="protocol-radio">
+                <span class="material-icons-round check">radio_button_unchecked</span>
+              </div>
+              <div class="protocol-info">
+                <div class="protocol-name">OpenVPN</div>
+                <div class="protocol-desc">Strongly armored tunneling based on industry standard AES-256 encryption.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <div class="group-title">Security Features</div>
+
+            <div class="setting-toggle-item">
+              <div class="toggle-info">
+                <div class="toggle-label">Kill Switch</div>
+                <div class="toggle-desc">Blocks internet entirely if VPN drops unexpectedly to prevent data leaks.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="killSwitchToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="setting-toggle-item">
+              <div class="toggle-info">
+                <div class="toggle-label">DNS Leak Protection</div>
+                <div class="toggle-desc">Routes all DNS queries securely through proprietary DNS servers.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="dnsLeakToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="setting-toggle-item">
+              <div class="toggle-info">
+                <div class="toggle-label">IPv6 Leak Protection</div>
+                <div class="toggle-desc">Completely disables IPv6 traffic leaks when connecting to foreign tunnels.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="ipv6LeakToggle" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="setting-toggle-item">
+              <div class="toggle-info">
+                <div class="toggle-label">Auto-connect on Startup</div>
+                <div class="toggle-desc">Launch and secure your tunnel as soon as Android system boots up.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="autoConnectToggle">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Split Tunneling Panel -->
+          <div class="settings-group">
+            <div class="group-title">Split Tunneling</div>
+            <div class="split-tunnel-card">
+              <div class="split-header">
+                <span class="material-icons-round">alt_route</span>
+                <span>Exclude Apps & Domains</span>
+              </div>
+              <p class="split-desc">Select apps or web domains that should bypass the VPN tunnel entirely and connect directly.</p>
+
+              <div class="split-apps-list">
+                <div class="split-app-item">
+                  <span>Netflix App (High Bandwidth Video)</span>
+                  <input type="checkbox" class="split-checkbox" checked>
+                </div>
+                <div class="split-app-item">
+                  <span>Banking & Finance Apps</span>
+                  <input type="checkbox" class="split-checkbox" checked>
+                </div>
+                <div class="split-app-item">
+                  <span>YouTube App</span>
+                  <input type="checkbox" class="split-checkbox">
+                </div>
+              </div>
+
+              <div class="custom-domain-wrapper">
+                <input type="text" id="customDomainInput" placeholder="Add custom domain (e.g. google.com)">
+                <button class="add-domain-btn" id="addDomainBtn">ADD</button>
+              </div>
+              <div class="domains-chips-container" id="domainsChipsContainer">
+                <!-- chips added here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SCREEN: ADMIN DASHBOARD ==================== -->
+      <div class="screen" id="screen-admin">
+        <div class="screen-header">
+          <h2>Admin Control Room</h2>
+          <p>Global infrastructure status and user analytics</p>
+        </div>
+
+        <div class="admin-scroll-area">
+          <!-- Summary Counters -->
+          <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+              <div class="label">Total Users</div>
+              <div class="val" id="adminTotalUsers">1,420</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="label">Active VPNS</div>
+              <div class="val text-primary" id="adminActiveTunnels">382</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="label">Total Traffic</div>
+              <div class="val text-green" id="adminTotalTraffic">12.4 TB</div>
+            </div>
+          </div>
+
+          <!-- Form to create/edit VPN server -->
+          <div class="admin-form-card">
+            <h3 id="adminFormTitle">Add New VPN Node</h3>
+            <form id="adminServerForm">
+              <input type="hidden" id="editServerId" value="">
+
+              <div class="input-row-half">
+                <div>
+                  <label for="adminCountry">Country</label>
+                  <input type="text" id="adminCountry" placeholder="e.g. USA" required>
+                </div>
+                <div>
+                  <label for="adminFlag">Flag Emoji</label>
+                  <input type="text" id="adminFlag" placeholder="🇺🇸" required>
+                </div>
+              </div>
+
+              <div class="input-row-half">
+                <div>
+                  <label for="adminCity">City</label>
+                  <input type="text" id="adminCity" placeholder="e.g. New York" required>
+                </div>
+                <div>
+                  <label for="adminPort">Port</label>
+                  <input type="number" id="adminPort" placeholder="51820" required>
+                </div>
+              </div>
+
+              <label for="adminHost">Host Name / IP</label>
+              <input type="text" id="adminHost" placeholder="us-ny.sunnahkkrvpn.com" required>
+
+              <div class="input-row-half">
+                <div>
+                  <label for="adminLoad">Server Load (%)</label>
+                  <input type="number" id="adminLoad" min="0" max="100" placeholder="15">
+                </div>
+                <div>
+                  <label for="adminPing">Latency (ms)</label>
+                  <input type="number" id="adminPing" placeholder="35">
+                </div>
+              </div>
+
+              <button type="submit" class="admin-submit-btn" id="adminSubmitBtn">DEPLOY NEW SERVER NODE</button>
+              <button type="button" class="admin-cancel-btn hidden" id="adminCancelEditBtn">CANCEL EDIT</button>
+            </form>
+          </div>
+
+          <!-- Server Table list with Edit/Delete Buttons -->
+          <div class="admin-nodes-card">
+            <h3>Registered VPN Server Nodes</h3>
+            <div class="admin-nodes-table-wrapper">
+              <table class="admin-nodes-table">
+                <thead>
+                  <tr>
+                    <th>Node</th>
+                    <th>Host</th>
+                    <th>Ping/Load</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminNodesTableBody">
+                  <!-- Dynamic admin server records -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- User Registry List -->
+          <div class="admin-nodes-card">
+            <h3>Registered VPN Users</h3>
+            <div class="admin-users-list" id="adminUsersList">
+              <!-- Dynamic user list -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SCREEN: PROFILE / AUTH ==================== -->
+      <div class="screen" id="screen-profile">
+        <div class="screen-header">
+          <h2>Sunnahkkr Account</h2>
+          <p>Access your cloud-synchronized VPN profile</p>
+        </div>
+
+        <div class="profile-scroll-area">
+          <!-- Auth Form (visible if not logged in) -->
+          <div id="unauthenticatedView">
+            <div class="auth-tabs">
+              <button class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')">LOGIN</button>
+              <button class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">REGISTER</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+              <label for="loginEmail">Email Address</label>
+              <input type="email" id="loginEmail" placeholder="you@example.com" required>
+
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="••••••••" required>
+
+              <button type="submit" class="auth-submit-btn">ACCESS SECURE VAULT</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form hidden">
+              <label for="regFullName">Full Name</label>
+              <input type="text" id="regFullName" placeholder="e.g. Abdullah Khan">
+
+              <label for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" placeholder="you@example.com" required>
+
+              <label for="regPhone">Phone Number</label>
+              <input type="tel" id="regPhone" placeholder="+1 234 567 890">
+
+              <label for="regPassword">Password</label>
+              <input type="password" id="regPassword" placeholder="Minimum 6 characters" required>
+
+              <button type="submit" class="auth-submit-btn green">PROVISION NEW VPN ACCOUNT</button>
+            </form>
+          </div>
+
+          <!-- Logged In View -->
+          <div id="authenticatedView" class="hidden">
+            <div class="user-profile-badge">
+              <div class="user-avatar" id="profileAvatar">U</div>
+              <h3 id="profileName">Abdullah Khan</h3>
+              <p id="profileEmail">abdullah@sunnahkkr.com</p>
+              <div class="user-role-badge" id="profileRole">PREMIUM MEMBER</div>
+            </div>
+
+            <div class="profile-details-card">
+              <div class="profile-row">
+                <span>Account Status:</span>
+                <span class="val green-text">ACTIVE (UNLIMITED)</span>
+              </div>
+              <div class="profile-row">
+                <span>Device Secure ID:</span>
+                <span class="val" id="profileDeviceID">SKR-9843-VPN</span>
+              </div>
+              <div class="profile-row">
+                <span>Phone:</span>
+                <span class="val" id="profilePhone">+1 (555) 019-2831</span>
+              </div>
+            </div>
+
+            <button class="logout-btn" id="profileLogoutBtn">DISCONNECT SECURE SESSION</button>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- screen-container -->
+
+    <!-- Global Bottom Nav Bar -->
+    <nav class="bottom-navbar">
+      <button class="nav-item active" onclick="switchScreen('home')">
+        <span class="material-icons-round">vpn_lock</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" onclick="switchScreen('servers')">
+        <span class="material-icons-round">dns</span>
+        <span>Servers</span>
+      </button>
+      <button class="nav-item" onclick="switchScreen('settings')">
+        <span class="material-icons-round">settings</span>
+        <span>Settings</span>
+      </button>
+      <button class="nav-item hidden" id="adminNavItem" onclick="switchScreen('admin')">
+        <span class="material-icons-round">admin_panel_settings</span>
+        <span>Admin</span>
+      </button>
+      <button class="nav-item" onclick="switchScreen('profile')">
+        <span class="material-icons-round">account_circle</span>
+        <span>Profile</span>
+      </button>
+    </nav>
+
+  </div> <!-- app-container -->
+
+  <!-- Cordova scripts -->
+  <script src="cordova.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
