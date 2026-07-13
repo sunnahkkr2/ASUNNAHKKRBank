@@ -1,83 +1,181 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile</title>
 
-<style>
-body{
-font-family:Arial,sans-serif;
-background:#f5f7fb;
-margin:0;
-}
-.container{
-max-width:420px;
-margin:30px auto;
-background:#fff;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-h2{
-text-align:center;
-color:#0066cc;
-}
-.item{
-margin:15px 0;
-padding:10px;
-border-bottom:1px solid #eee;
-}
-.label{
-font-weight:bold;
-color:#555;
-}
-.value{
-margin-top:5px;
-font-size:18px;
-}
-</style>
+<title>My Profile</title>
+
+<link rel="stylesheet" href="../css/style.css">
 
 </head>
+
 <body>
 
-<div class="container">
+<div class="header">
 
-<h2>My Profile</h2>
+<h1>My Profile</h1>
 
-<div class="item">
-<div class="label">Full Name</div>
-<div id="fullName" class="value"></div>
+<p>Manage your account</p>
+
 </div>
 
-<div class="item">
-<div class="label">Email</div>
-<div id="email" class="value"></div>
+<div class="container fade-in">
+
+<div class="card" style="text-align:center;">
+
+<div class="avatar">
+👤
 </div>
 
-<div class="item">
-<div class="label">Phone Number</div>
-<div id="phone" class="value"></div>
+<h2 id="fullName">
+Loading...
+</h2>
+
+<p id="accountNumber">
+Loading...
+</p>
+
 </div>
 
-<div class="item">
-<div class="label">Account Number</div>
-<div id="accountNumber" class="value"></div>
+<div class="profile-card">
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Email
 </div>
+
+<div
+class="transaction-date"
+id="email">
+Loading...
+</div>
+
+</div>
+
+</div>
+
+<div class="transaction">
+
+<div>
+
+<div class="transaction-name">
+Account Balance
+</div>
+
+<div
+class="transaction-date"
+id="balance">
+₦0.00
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="profile-card">
+
+<button onclick="location.href='change-pin.html'">
+Change PIN
+</button>
+
+<button onclick="location.href='change-password.html'">
+Change Password
+</button>
+
+<button class="red" onclick="logout()">
+Logout
+</button>
+
+</div>
+</div>
+
+<div class="bottom-nav">
+
+<a href="dashboard.html">
+🏠
+<span>Home</span>
+</a>
+
+<a href="transfer.html">
+💸
+<span>Transfer</span>
+</a>
+
+<a href="history.html">
+📜
+<span>History</span>
+</a>
+
+<a href="profile.html" class="active">
+👤
+<span>Profile</span>
+</a>
 
 </div>
 
 <script>
-const user = JSON.parse(localStorage.getItem("user"));
 
-if(!user){
-    window.location.href="login.html";
+const API_URL="http://localhost:5000/api";
+
+const currentUser=JSON.parse(localStorage.getItem("user"));
+
+if(!currentUser){
+
+location.href="login.html";
+
 }
 
-document.getElementById("fullName").innerText = user.fullName;
-document.getElementById("email").innerText = user.email;
-document.getElementById("phone").innerText = user.phone;
-document.getElementById("accountNumber").innerText = user.accountNumber;
+document.getElementById("fullName").innerText=
+currentUser.fullName;
+
+document.getElementById("accountNumber").innerText=
+currentUser.accountNumber;
+
+document.getElementById("email").innerText=
+currentUser.email;
+
+async function loadBalance(){
+
+try{
+
+const response=await fetch(
+`${API_URL}/user/balance/${currentUser.accountNumber}`
+);
+
+const data=await response.json();
+
+if(response.ok){
+
+document.getElementById("balance").innerText=
+"₦"+Number(data.balance).toLocaleString();
+
+}
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+function logout(){
+
+localStorage.removeItem("user");
+
+location
+
+}
+
+loadBalance();
+
 </script>
 
 </body>
