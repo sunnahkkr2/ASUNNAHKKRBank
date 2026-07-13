@@ -6,6 +6,19 @@ async function lookupAccount() {
     const accountNumber = document.getElementById("receiverAccount").value.trim();
 
     if (!accountNumber) return;
+localStorage.setItem(
+    "pendingTransfer",
+    JSON.stringify({
+        receiverName: document.getElementById("receiverName").innerText,
+        receiverAccount,
+        amount,
+        description,
+        pin
+    })
+);
+
+window.location.href = "confirm-transfer.html";
+return;
 
     try {
         const response = await fetch(`${API_URL}/user/lookup`, {
@@ -44,6 +57,17 @@ async function transferMoney() {
 
     const pin =
         document.getElementById("pin").value;
+if (!confirm(
+`Confirm Transfer
+
+Recipient: ${document.getElementById("receiverName").innerText}
+Amount: ₦${Number(amount).toLocaleString()}
+Description: ${description || "No description"}
+
+Do you want to continue?`
+)) {
+    return;
+}
 
     try {
 

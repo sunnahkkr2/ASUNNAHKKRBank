@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - ASUNNAHKKR BANK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="../css/style.css">
 <style>
 body{
@@ -51,8 +52,31 @@ body{
 <body>
 
 <div class="header">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+
+<div>
 <h2>Welcome</h2>
 <h3 id="name"></h3>
+</div>
+
+<div style="
+width:55px;
+height:55px;
+background:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+color:#0066cc;
+font-weight:bold;
+">
+👤
+</div>
+
+</div>
+
 </div>
 
 <div class="card">
@@ -60,14 +84,52 @@ body{
 <h2 id="account"></h2>
 
 <p>Available Balance</p>
-<div class="balance" id="balance">₦0.00</div>
+<div style="display:flex;align-items:center;justify-content:space-between;">
+
+<div class="balance" id="balance">
+₦0.00
+</div>
+
+<button
+id="toggleBalance"
+style="border:none;background:none;font-size:22px;cursor:pointer;">
+👁️
+</button>
+
 </div>
 
 <div class="grid">
-<a class="btn" href="transfer.html">Transfer</a>
-<a class="btn" href="history.html">History</a>
-<a class="btn" href="profile.html">Profile</a>
-<a class="btn" href="settings.html">Settings</a>
+
+<a href="transfer.html" class="item">
+<div class="icon">💸</div>
+Transfer
+</a>
+
+<a href="airtime.html" class="item">
+<div class="icon">📱</div>
+Airtime
+</a>
+
+<a href="data.html" class="item">
+<div class="icon">📶</div>
+Data
+</a>
+
+<a href="bills.html" class="item">
+<div class="icon">💡</div>
+Bills
+</a>
+
+<a href="history.html" class="item">
+<div class="icon">📜</div>
+History
+</a>
+
+<a href="profile.html" class="item">
+<div class="icon">👤</div>
+Profile
+</a>
+
 </div>
 
 <script>
@@ -99,7 +161,55 @@ async function loadBalance() {
 }
 
 loadBalance();
+let visible = true;
+
+document.getElementById("toggleBalance").onclick = function(){
+
+if(visible){
+
+document.getElementById("balance").innerText="••••••";
+
+this.innerHTML="🙈";
+
+}else{
+
+loadBalance();
+
+this.innerHTML="👁️";
+
+}
+
+visible=!visible;
+
+};
+</script>
 </script>
 
+<div class="bottom-nav">
+
+<a href="dashboard.html" class="active">
+🏠
+<span>Home</span>
+</a>
+
+<a href="transfer.html">
+💸
+<span>Transfer</span>
+</a>
+
+<a href="history.html">
+📜
+<span>History</span>
+</a>
+
+<a href="profile.html">
+👤
+<span>Profile</span>
+</a>
+
+</div>
+
+</body>
+</html>
 </body>
 </html>

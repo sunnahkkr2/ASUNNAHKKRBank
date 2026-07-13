@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Confirm Transfer</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+}
+
+.header{
+background:#0066cc;
+color:white;
+padding:20px;
+text-align:center;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.card{
+width:90%;
+max-width:420px;
+margin:25px auto;
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+.amount{
+font-size:34px;
+font-weight:bold;
+color:#00A651;
+text-align:center;
+margin:20px 0;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#00A651;
+color:white;
+font-size:18px;
+font-weight:bold;
+margin-top:20px;
+}
+
+.cancel{
+background:#ddd;
+color:#333;
+margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h2>Confirm Transfer</h2>
+</div>
+
+<div class="card">
+
+<div class="amount" id="amount">
+₦0.00
+</div>
+
+<div class="row">
+<span>Recipient</span>
+<b id="receiverName"></b>
+</div>
+
+<div class="row">
+<span>Account</span>
+<b id="receiverAccount"></b>
+</div>
+
+<div class="row">
+<span>Description</span>
+<b id="description"></b>
+</div>
+
+<button onclick="confirmTransfer()">
+Confirm Transfer
+</button>
+
+<button class="cancel" onclick="history.back()">
+Cancel
+</button>
+
+</div>
+
+<script>
+const transfer = JSON.parse(localStorage.getItem("pendingTransfer"));
+
+if(!transfer){
+location.href="transfer.html";
+}
+
+document.getElementById("amount").innerText="₦"+Number(transfer.amount).toLocaleString();
+document.getElementById("receiverName").innerText=transfer.receiverName;
+document.getElementById("receiverAccount").innerText=transfer.receiverAccount;
+document.getElementById("description").innerText=transfer.description || "-";
+
+const API_URL = "http://localhost:5000/api";
+const currentUser = JSON.parse(localStorage.getItem("user"));
+
+async function confirmTransfer(){
+
+try{
+
+const response = await fetch(`${API_URL}/transaction/transfer`,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+senderAccount:currentUser.accountNumber,
+
+receiverAccount:transfer.receiverAccount,
+
+amount:transfer.amount,
+
+description:transfer.description,
+
+pin:transfer.pin
+
+})
+
+});
+
+const data = await response.json();
+
+if(!response.ok){
+
+alert(data.message);
+return;
+
+}
+
+localStorage.setItem(
+"lastTransaction",
+JSON.stringify(data.transaction)
+);
+
+localStorage.removeItem("pendingTransfer");
+
+window.location.href="receipt.html";
+
+}catch(err){
+
+alert("Unable to connect to server.");
+
+}
+
+}
+</script>
+
+</body>
+</html>

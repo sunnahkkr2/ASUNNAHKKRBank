@@ -15,11 +15,62 @@ body{
 
 .container{
     max-width:420px;
-    margin:30px auto;
+    margin:20px auto;
     background:#fff;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f2f5fa;
+    margin:0;
+}
+
+.header{
+    background:#0066cc;
+    color:white;
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,.1);
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-top:15px;
+    margin-bottom:5px;
+    color:#444;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#00A651;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+}
+
+#receiverName{
+    color:#00A651;
+    font-weight:bold;
+    margin-top:8px;
 }
 
 h2{
@@ -57,34 +108,44 @@ button{
 
 <body>
 
+<div class="header">
+<h2>Transfer Money</h2>
+</div>
+
 <div class="container">
 
-<h2>Money Transfer</h2>
+<label>Account Number</label>
 
 <input
 id="receiverAccount"
-placeholder="Receiver Account Number"
+placeholder="Enter Account Number"
 onblur="lookupAccount()">
 
 <div id="receiverName"></div>
 
+<label>Amount (₦)</label>
+
 <input
 id="amount"
 type="number"
-placeholder="Amount">
+placeholder="Enter Amount">
+
+<label>Narration</label>
 
 <input
 id="description"
-placeholder="Description">
+placeholder="Payment Description">
+
+<label>Transfer PIN</label>
 
 <input
 id="pin"
 type="password"
 maxlength="4"
-placeholder="Transfer PIN">
+placeholder="Enter 4-digit PIN">
 
 <button onclick="transferMoney()">
-Transfer
+Continue
 </button>
 
 </div>

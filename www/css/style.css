@@ -34,3 +34,34 @@ body{
     from{transform:rotate(0deg);}
     to{transform:rotate(360deg);}
 }
+.bottom-nav{
+position:fixed;
+left:0;
+bottom:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -3px 10px rgba(0,0,0,.1);
+z-index:1000;
+}
+
+.bottom-nav a{
+display:flex;
+flex-direction:column;
+align-items:center;
+text-decoration:none;
+color:#666;
+font-size:14px;
+font-weight:bold;
+}
+
+.bottom-nav a.active{
+color:#0066cc;
+}
+
+.bottom-nav span{
+margin-top:4px;
+font-size:12px;
+}

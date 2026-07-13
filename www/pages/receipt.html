@@ -6,44 +6,83 @@
 <title>Transfer Receipt</title>
 
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    background:#f4f6f9;
-    margin:0;
+background:#f5f7fb;
 }
+
+.header{
+background:#00A651;
+color:#fff;
+text-align:center;
+padding:30px 20px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.check{
+font-size:70px;
+margin-bottom:10px;
+}
+
 .container{
-    max-width:420px;
-    margin:30px auto;
-    background:#fff;
-    border-radius:15px;
-    padding:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.1);
+width:90%;
+max-width:420px;
+margin:20px auto;
+background:#fff;
+border-radius:20px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
 }
-.logo{
-    text-align:center;
-    color:#0066cc;
-    font-size:28px;
-    font-weight:bold;
+
+.amount{
+font-size:34px;
+font-weight:bold;
+color:#00A651;
+text-align:center;
+margin-bottom:20px;
 }
-.success{
-    text-align:center;
-    color:green;
-    font-size:22px;
-    margin:20px 0;
-}
+
 .row{
-    display:flex;
-    justify-content:space-between;
-    margin:12px 0;
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
 }
+
+.label{
+color:#777;
+}
+
+.value{
+font-weight:bold;
+}
+
 button{
-    width:100%;
-    padding:12px;
-    background:#0066cc;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    margin-top:20px;
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.home{
+background:#0066cc;
+color:white;
+}
+
+.share{
+background:#00A651;
+color:white;
 }
 </style>
 
@@ -51,65 +90,83 @@ button{
 
 <body>
 
+<div class="header">
+<div class="check">✅</div>
+<h2>Transfer Successful</h2>
+<p>Your transaction has been completed.</p>
+</div>
+
 <div class="container">
 
-<div class="logo">
-🏦 ASUNNAHKKR BANK
-</div>
-
-<div class="success">
-✅ Transfer Successful
+<div class="amount" id="amount">
+₦0.00
 </div>
 
 <div class="row">
-<span>Amount</span>
-<b id="amount"></b>
+<span class="label">Recipient</span>
+<span class="value" id="receiverName">-</span>
 </div>
 
 <div class="row">
-<span>Description</span>
-<b id="description"></b>
+<span class="label">Account Number</span>
+<span class="value" id="receiverAccount">-</span>
 </div>
 
 <div class="row">
-<span>Status</span>
-<b>Successful</b>
+<span class="label">Description</span>
+<span class="value" id="description">-</span>
 </div>
 
 <div class="row">
-<span>Transaction ID</span>
-<b id="transactionId"></b>
+<span class="label">Date</span>
+<span class="value" id="date">-</span>
 </div>
 
 <div class="row">
-<span>Date</span>
-<b id="date"></b>
+<span class="label">Transaction ID</span>
+<span class="value" id="transactionId">-</span>
 </div>
 
-<button onclick="window.location.href='dashboard.html'">
+<button class="home" onclick="location.href='dashboard.html'">
 Back to Dashboard
+</button>
+
+<button class="share" onclick="window.print()">
+Share / Print Receipt
 </button>
 
 </div>
 
 <script>
-const tx = JSON.parse(localStorage.getItem("lastTransaction"));
+const transaction =
+JSON.parse(localStorage.getItem("lastTransaction"));
 
-if(!tx){
-    window.location.href="dashboard.html";
-}
+const pending =
+JSON.parse(localStorage.getItem("pendingTransfer"));
+
+if(transaction){
 
 document.getElementById("amount").innerText =
-"₦" + tx.amount;
+"₦"+Number(transaction.amount).toLocaleString();
+
+document.getElementById("receiverName").innerText =
+pending?.receiverName || "-";
+
+document.getElementById("receiverAccount").innerText =
+transaction.receiverAccount || pending?.receiverAccount || "-";
 
 document.getElementById("description").innerText =
-tx.description;
-
-document.getElementById("transactionId").innerText =
-tx._id;
+transaction.description || pending?.description || "-";
 
 document.getElementById("date").innerText =
-new Date(tx.createdAt).toLocaleString();
+new Date().toLocaleString();
+
+document.getElementById("transactionId").innerText =
+transaction._id ||
+transaction.id ||
+"TXN-"+Date.now();
+
+}
 </script>
 
 </body>
